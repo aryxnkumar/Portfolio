@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aryan Kumar Portfolio</title>
+    <style>
+      /* ------------------ Basic Reset ------------------ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #000;
+        color: #fff;
+        overflow-x: hidden;
+      }
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      /* ------------------ Navbar ------------------ */
+      .navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.6);
+      }
+      .nav-left {
+        display: flex;
+        flex-direction: column;
+      }
+      .nav-left h1 {
+        font-size: 1.8rem;
+        color: #00ffc8;
+      }
+      .nav-left span {
+        font-size: 1rem;
+        color: #fff;
+        margin-top: 0.2rem;
+      }
+      .nav-right {
+        position: relative;
+      }
+      .menu-btn {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+      .menu-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 2.5rem;
+        background: #111;
+        border: 1px solid #00ffc8;
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 999;
+      }
+      .menu-dropdown a {
+        display: block;
+        padding: 0.8rem 1.5rem;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .menu-dropdown a:hover {
+        background: #00ffc8;
+        color: #000;
+      }
+      .menu-dropdown.show {
+        display: block;
+      }
+
+      /* ------------------ Hero ------------------ */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 1rem 4rem 1rem;
+        text-align: center;
+        position: relative;
+      }
+      .profile-circle {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        border: 5px solid #00ffc8;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        box-shadow: 0 0 40px #00ffc8, 0 0 80px #0fffc0, 0 0 120px #00ffc8;
+        transition: transform 0.3s,box-shadow 0.3s;
+      }
+      .profile-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .profile-circle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 60px #00ffc8,0 0 100px #0fffc0,0 0 150px #00ffe0;
+      }
+      .hero h2 {
+        font-size: 2.8rem;
+        margin-top: 1rem;
+        color: #00ffc8;
+        text-shadow: 0 0 10px #00ffc8, 0 0 20px #0fffc0, 0 0 30px #00ffc8;
+      }
+      .titles {
+        margin-top: 0.5rem;
+        font-size: 1.3rem;
+        color: #fff;
+        min-height: 1.5rem;
+      }
+      .slogan {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        color: #0fffc0;
+        font-style: italic;
+      }
+
+      /* ------------------ Sections ------------------ */
+      section {
+        padding: 4rem 2rem;
+      }
+      section h2 {
+        color: #00ffc8;
+        margin-bottom: 1rem;
+      }
+      .projects,
+      .skills,
+      .socials {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        width: 250px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 20px rgba(0, 255, 200, 0.2);
+      }
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 40px rgba(0, 255, 200, 0.4);
+      }
+      .card h3 {
+        color: #00ffc8;
+        margin-bottom: 0.5rem;
+      }
+      .card p {
+        font-size: 0.9rem;
+      }
+      .socials a {
+        color: #fff;
+        margin: 0 0.5rem;
+        font-size: 1.5rem;
+        transition: 0.3s;
+        text-decoration: none;
+      }
+      .socials a:hover {
+        color: #00ffc8;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem;
+        background: #111;
+        font-size: 0.9rem;
+      }
+
+      /* ------------------ Certificates ------------------ */
+      .cert-section {
+        padding: 2.5rem 1.25rem;
+      }
+      .cert-section h2 {
+        color: #00ffc8;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .cert-strip {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding: 12px 0;
+        border-radius: 14px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.25),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid rgba(0, 255, 200, 0.06);
+      }
+      .cert-track {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        will-change: transform;
+      }
+      .cert-card {
+        flex: 0 0 auto;
+        width: 320px;   /* <-- increased size */
+        height: 200px;  /* <-- increased size */
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 6px 20px rgba(0, 255, 200, 0.04);
+        border: 2px solid rgba(0, 255, 200, 0.08);
+        background: #060606;
+      }
+      .cert-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(1.05);
+      }
+      .cert-card::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 14px;
+        pointer-events: none;
+        box-shadow: 0 0 10px rgba(0, 255, 200, 0.18),
+          0 0 30px rgba(0, 255, 200, 0.1);
+        opacity: 0.9;
+        mix-blend-mode: screen;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+      .cert-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 18px 50px rgba(0, 255, 200, 0.12);
+      }
+      .cert-card:hover::after {
+        transform: scale(1.02);
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.28),
+          0 0 60px rgba(0, 255, 200, 0.18);
+      }
+      .cert-label {
+        position: absolute;
+        left: 8px;
+        bottom: 8px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #dff;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 14px; /* <-- made label a bit larger */
+        backdrop-filter: blur(6px);
+      }
+      .cert-strip.paused {
+        cursor: grab;
+      }
+      @media (max-width: 700px) {
+        .cert-card {
+          width: 240px; /* increased mobile size */
+          height: 160px;
+        }
+      }
+
+      /* small utility for spacing before socials in contact */
+      .contact .socials {
+        margin-top: 1.25rem; /* added gap under contact text */
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles"></canvas>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="nav-left">
+        <h1>Aryan Kumar</h1>
+        <span>Aspiring Developer | Ethical Hacker</span>
+      </div>
+      <div class="nav-right">
+        <div class="menu-btn" onclick="toggleMenu()">⋮</div>
+        <div class="menu-dropdown" id="dropdown">
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#certifications">Certifications</a>
+          <a href="#contact">Contact/Collaborate</a>
+          <a href="#privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="profile-circle">
+        <img src="githubprofile.webp" alt="Aryan Kumar" />
+      </div>
+      <h2>Aryan Kumar</h2>
+      <div class="titles" id="titles"></div>
+      <div class="slogan">
+        Empowering the digital world through fearless innovation
+      </div>
+    </section>
+
+    <!-- About Me -->
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I am an Aspiring Developer | Artificial Intelligence Enthusiast, and
+        very well intrested in the field of Cybersecurity And Ethical Hacking. I
+        love building futuristic apps & tools to empower the digital world.
+        Worked on many projects but strongs one are - Crypto Coin and My own company - <strong>Neyra - The Learning Platform<strong>
+        Indore | B.Tech CSE Student
+      </p>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <div class="card">
+          <h3>Tic Tac Toe</h3>
+          <p>Game project</p>
+        </div>
+        <div class="card">
+          <h3>Chess</h3>
+          <p>Game project</p>
+        </div>
+        <div class="card">
+          <h3>Snake</h3>
+          <p>Game project</p>
+        </div>
+        <div class="card">
+          <h3>Car Racing</h3>
+          <p>Game project</p>
+        </div>
+        <div class="card">
+          <h3>Guess The Colour</h3>
+          <p>Game project</p>
+        </div>
+        <div class="card">
+          <h3>Luna</h3>
+          <p>Personal AI Assistant</p>
+        </div>
+        <div class="card">
+          <h3>Geetapath</h3>
+          <p>Life solutions via Bhagavad Gita</p>
+        </div>
+        <div class="card">
+          <h3>CyberSense</h3>
+          <p>Capture the Flag</p>
+        </div>
+        <div class="card">
+          <h3>Hamari Baatein</h3>
+          <p>Digital Diary</p>
+        </div>
+        <div class="card">
+          <h3>AryanCoin</h3>
+          <p>Crypto project</p>
+        </div>
+        <div class="card">
+          <h3>Neyra</h3>
+          <p>Learning platform</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills">
+        <div class="card"><h3>Python</h3></div>
+        <div class="card"><h3>Ethical Hacking</h3></div>
+        <div class="card"><h3>Cybersecurity</h3></div>
+        <div class="card"><h3>Web Dev</h3></div>
+        <div class="card"><h3>App Dev</h3></div>
+        <div class="card"><h3>AI Expert</h3></div>
+        <div class="card"><h3>Scratch</h3></div>
+        <div class="card"><h3>C</h3></div>
+        <div class="card">
+          <h3>
+            Currently Learning: Java, Web Security, Cloud Security, Kali Linux
+          </h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section id="certifications" class="cert-section">
+      <h2>Certifications</h2>
+      <div
+        class="cert-strip"
+        id="certStrip"
+        title="Hover to pause — click to open certificate"
+      >
+        <div class="cert-track" id="certTrack">
+          <a class="cert-card" href="cert1.jpg" target="_blank"
+            ><img src="cert1.jpg" alt="Certificate 1" />
+            <div class="cert-label">GUVI - CHATGPT  FOR EVERYONE</div></a
+          >
+          <a class="cert-card" href="cert2.jpg" target="_blank"
+            ><img src="cert2.jpg" alt="Certificate 2" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO MACHINE LEARNING CONCEPTS</div></a
+          >
+          <a class="cert-card" href="cert3.jpg" target="_blank"
+            ><img src="cert3.jpg" alt="Certificate 3" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO PROMPT ENGINEERING WITH GITHUB CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert4.jpg" target="_blank"
+            ><img src="cert4.jpg" alt="Certificate 4" />
+            <div class="cert-label">MICROSOFT - RESPONSIBLE AI WITH GUTHUB CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert5.jpg" target="_blank"
+            ><img src="cert5.jpg" alt="Certificate 5" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO MICROSOFT 365 CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert6.jpg" target="_blank"
+            ><img src="cert6.jpg" alt="Certificate 6" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO GITHUB CAPILOT</div></a
+          >
+
+          <!-- duplicate for seamless loop -->
+          <a class="cert-card" href="cert1.jpg" target="_blank"
+            ><img src="cert1.jpg" alt="Certificate 1" />
+            <div class="cert-label">GUVI - CHATGPT  FOR EVERYONE</div></a
+          >
+          <a class="cert-card" href="cert2.jpg" target="_blank"
+            ><img src="cert2.jpg" alt="Certificate 2" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO MACHINE LEARNING CONCEPTS</div></a
+          >
+          <a class="cert-card" href="cert3.jpg" target="_blank"
+            ><img src="cert3.jpg" alt="Certificate 3" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO PROMPT ENGINEERING WITH GITHUB CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert4.jpg" target="_blank"
+            ><img src="cert4.jpg" alt="Certificate 4" />
+            <div class="cert-label">MICROSOFT - RESPONSIBLE AI WITH GUTHUB CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert5.jpg" target="_blank"
+            ><img src="cert5.jpg" alt="Certificate 5" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO MICROSOFT 365 CAPILOT</div></a
+          >
+          <a class="cert-card" href="cert6.jpg" target="_blank"
+            ><img src="cert6.jpg" alt="Certificate 6" />
+            <div class="cert-label">MICROSOFT - INTRODUCTION TO GITHUB CAPILOT</div></a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+      <h2>Contact</h2>
+      <p>
+        For any query or collaboration mail us on:
+        <strong><a href="mailto: aryxnkumar.dev@gmail.com"> ✉ aryxnkumar.dev@gmail.com</a></strong>
+      </p>
+
+      <div class="socials">
+        <a href="https://twitter.com/aryxnkumar" target="_blank" rel="noopener">𝕏 Twitter</a>
+        <a href="https://www.linkedin.com/in/aryxnkumar" target="_blank" rel="noopener">[in] LinkedIn</a>
+        <a href="https://instagram.com/aryaxnchandravanshi" target="_blank" rel="noopener">🅾 Instagram</a>
+        <a href="https://github.com/aryxnkumar" target="_blank" rel="noopener">☍ GitHub</a>
+      </div>
+    </section>
+
+    <!-- Privacy -->
+    <section id="privacy">
+      <h2>Privacy Policy</h2>
+      <p>
+        All rights reserved © 2025 - Aryan Kumar. Your data is secure and only
+        used for contact or collaboration purposes.
+      </p>
+    </section>
+
+    <script>
+      // ------------------ Navbar Dropdown ------------------
+      function toggleMenu() {
+        document.getElementById("dropdown").classList.toggle("show");
+      }
+
+      // ------------------ Animated Titles ------------------
+      const titles = [
+        "Aspiring Developer",
+        "Ethical Hacker",
+        "Bug Bounty Tester",
+        "AI Expert",
+        "Future of tech"
+      ];
+      let titleIndex = 0;
+      const titleEl = document.getElementById("titles");
+      function showTitle() {
+        titleEl.innerText = titles[titleIndex];
+        titleIndex = (titleIndex + 1) % titles.length;
+      }
+      setInterval(showTitle, 2000);
+      showTitle();
+
+      // ------------------ Particles + Neon Airplanes + Neon Letters ------------------
+      const canvas = document.getElementById("particles");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let particlesArray = [];
+      const colors = ["#00ffc8", "#0fffc0", "#00ffe0", "#00ffb0"];
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- |";
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.letter = letters.charAt(
+            Math.floor(Math.random() * letters.length)
+          );
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        }
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.font = "bold 16px monospace";
+          ctx.fillText(this.letter, this.x, this.y);
+        }
+      }
+
+      function initParticles() {
+        particlesArray = [];
+        for (let i = 0; i < 200; i++) {
+          particlesArray.push(new Particle());
+        }
+      }
+      initParticles();
+
+      let planes = [];
+      for (let i = 0; i < 6; i++) {
+        planes.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          speed: 2 + Math.random() * 2,
+        });
+      }
+
+      function drawAirplanes() {
+        planes.forEach((p) => {
+          ctx.strokeStyle = "#00ffc8";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + 20, p.y - 8);
+          ctx.lineTo(p.x + 20, p.y + 8);
+          ctx.closePath();
+          ctx.stroke();
+          p.x += p.speed;
+          p.y += Math.sin(p.x * 0.01) * 1.5;
+          if (p.x > canvas.width + 20) {
+            p.x = -40;
+            p.y = Math.random() * canvas.height;
+          }
+        });
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesArray.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        drawAirplanes();
+        requestAnimationFrame(animateParticles);
+      }
+
+      animateParticles();
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initParticles();
+      });
+
+      // ------------------ Certificates Auto Scroll ------------------
+      (function () {
+        const strip = document.getElementById("certStrip");
+        const track = document.getElementById("certTrack");
+        if (!strip || !track) return;
+        const SPEED = 60; // px/sec
+        let trackWidth = track.scrollWidth / 2;
+        let x = 0;
+        let last = performance.now();
+        let paused = false;
+        strip.addEventListener("mouseenter", () => (paused = true));
+        strip.addEventListener("mouseleave", () => (paused = false));
+        strip.addEventListener("pointerdown", () => (paused = true));
+        strip.addEventListener("pointerup", () => (paused = false));
+        function tick(now) {
+          const dt = (now - last) / 1000;
+          last = now;
+          if (!paused) {
+            x -= SPEED * dt;
+            if (Math.abs(x) >= trackWidth) x += trackWidth;
+            track.style.transform = `translateX(${x}px)`;
+          }
+          requestAnimationFrame(tick);
+        }
+        window.addEventListener("resize", () => {
+          trackWidth = track.scrollWidth / 2;
+        });
+        requestAnimationFrame(tick);
+      })();
+    </script>
+  </body>
+</html>
+
